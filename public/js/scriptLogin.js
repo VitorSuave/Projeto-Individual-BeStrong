@@ -7,7 +7,6 @@ function limparFormulario() {
 }
 
 function cadastrar() {
-    //aguardar();
 
     // Recupere o valor da nova input pelo nome do id
     var nomeVar = nome.value;
@@ -29,7 +28,6 @@ function cadastrar() {
     // Verificando se há algum campo em branco
     if (
         nomeVar == "" ||
-        codigoVar == "" ||
         emailVar == "" ||
         senhaVar == "" ||
         confirmarSenha == ""
@@ -57,114 +55,114 @@ function cadastrar() {
 
 
 
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            nomeServer: nomeVar,
-            emailServer: emailVar,
-            senhaServer: senhaVar
-        }),
-    })
-        .then(function (resposta) {
-            console.log("resposta: ", resposta);
+//     // Enviando o valor da nova input
+//     fetch("/usuarios/cadastrar", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//             nomeServer: nomeVar,
+//             emailServer: emailVar,
+//             senhaServer: senhaVar
+//         }),
+//     })
+//         .then(function (resposta) {
+//             console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-                // Exibe a mensagem de sucesso
-                mensagemErro.innerHTML = "Cadastro realizado com sucesso! Você será redirecionado para o login!";
-                mensagemErro.style.color = "green";
-                mensagemErro.style.display = "block";
+//             if (resposta.ok) {
+//                 // Exibe a mensagem de sucesso
+//                 mensagemErro.innerHTML = "Cadastro realizado com sucesso! Você será redirecionado para o login!";
+//                 mensagemErro.style.color = "green";
+//                 mensagemErro.style.display = "block";
 
-                // Redireciona para o login
-                setTimeout(() => {
-                    window.location.href = "/login.html"; // Redirecionando para a página de login após 5 segundos
-                }, 3000);
+//                 // Redireciona para o login
+//                 setTimeout(() => {
+//                     window.location.href = "/login.html"; // Redirecionando para a página de login após 5 segundos
+//                 }, 3000);
 
-                limparFormulario(); // Chama a função para limpar os campos após o cadastro
-            } else {
-                throw "Houve um erro ao tentar realizar o cadastro!";
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            mensagemErro.innerHTML = "Ocorreu um erro ao realizar o cadastro!";
-            mensagemErro.style.color = "red";
-            mensagemErro.style.display = "block";
-        });
+//                 limparFormulario(); // Chama a função para limpar os campos após o cadastro
+//             } else {
+//                 throw "Houve um erro ao tentar realizar o cadastro!";
+//             }
+//         })
+//         .catch(function (resposta) {
+//             console.log(`#ERRO: ${resposta}`);
+//             mensagemErro.innerHTML = "Ocorreu um erro ao realizar o cadastro!";
+//             mensagemErro.style.color = "red";
+//             mensagemErro.style.display = "block";
+//         });
 
-    // Ocultar a mensagem após 5 segundos
-    setTimeout(() => {
-        mensagemErro.style.display = "none";
-    }, 5000);
-}
+//     // Ocultar a mensagem após 5 segundos
+//     setTimeout(() => {
+//         mensagemErro.style.display = "none";
+//     }, 5000);
+// }
 
 
 
-function entrar() {
-    // Pegando os valores dos campos de email e senha
-    var emailVar = email_usuario.value;
-    var senhaVar = senha_usuario.value;
+// function entrar() {
+//     // Pegando os valores dos campos de email e senha
+//     var emailVar = email_usuario.value;
+//     var senhaVar = senha_usuario.value;
 
-    var mensagemErroLogin = document.getElementById("mensagem_erro_login");
+//     var mensagemErroLogin = document.getElementById("mensagem_erro_login");
 
-    // Verificando se os campos estão vazios
-    if (emailVar == "" || senhaVar == "") {
-        // Exibe a mensagem de erro se os campos estiverem vazios
-        mensagemErroLogin.innerHTML = "Por favor, preencha ambos os campos!";
-        mensagemErroLogin.style.display = "block";
+//     // Verificando se os campos estão vazios
+//     if (emailVar == "" || senhaVar == "") {
+//         // Exibe a mensagem de erro se os campos estiverem vazios
+//         mensagemErroLogin.innerHTML = "Por favor, preencha ambos os campos!";
+//         mensagemErroLogin.style.display = "block";
 
-        // Impede o envio do formulário
-        return false;
-    } else {
-        mensagemErroLogin.style.display = "none";
-    }
+//         // Impede o envio do formulário
+//         return false;
+//     } else {
+//         mensagemErroLogin.style.display = "none";
+//     }
 
-    console.log("FORM LOGIN: ", emailVar);
-    console.log("FORM SENHA: ", senhaVar);
+//     console.log("FORM LOGIN: ", emailVar);
+//     console.log("FORM SENHA: ", senhaVar);
 
-    // Realiza a requisição para a autenticação
-    fetch("/usuarios/autenticar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            emailServer: emailVar,
-            senhaServer: senhaVar
-        })
-    }).then(function (resposta) {
-        console.log("ESTOU NO THEN DO entrar()!");
+//     // Realiza a requisição para a autenticação
+//     fetch("/usuarios/autenticar", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({
+//             emailServer: emailVar,
+//             senhaServer: senhaVar
+//         })
+//     }).then(function (resposta) {
+//         console.log("ESTOU NO THEN DO entrar()!");
 
-        if (resposta.ok) {
-            resposta.json().then(json => {
-                sessionStorage.EMAIL_USUARIO = json.email;
-                sessionStorage.NOME_USUARIO = json.nome;
-                sessionStorage.ID_USUARIO = json.idUsuario;
+//         if (resposta.ok) {
+//             resposta.json().then(json => {
+//                 sessionStorage.EMAIL_USUARIO = json.email;
+//                 sessionStorage.NOME_USUARIO = json.nome;
+//                 sessionStorage.ID_USUARIO = json.idUsuario;
 
-                mensagemErroLogin.innerHTML = "Login realizado com sucesso!";
-                mensagemErroLogin.style.color = "green";
-                mensagemErroLogin.style.display = "block";
+//                 mensagemErroLogin.innerHTML = "Login realizado com sucesso!";
+//                 mensagemErroLogin.style.color = "green";
+//                 mensagemErroLogin.style.display = "block";
 
-                setTimeout(function () {
-                    window.location = "dashboard.html";
-                }, 3000);
-            });
+//                 setTimeout(function () {
+//                     window.location = "dashboard.html";
+//                 }, 3000);
+//             });
 
-        } else {
-            console.log("Houve um erro ao tentar realizar o login!");
-            resposta.text().then(texto => {
-                console.error(texto);
-                mensagemErroLogin.innerHTML = "Falha no login: " + texto;
-                mensagemErroLogin.style.display = "block";
-            });
-        }
+//         } else {
+//             console.log("Houve um erro ao tentar realizar o login!");
+//             resposta.text().then(texto => {
+//                 console.error(texto);
+//                 mensagemErroLogin.innerHTML = "Falha no login: " + texto;
+//                 mensagemErroLogin.style.display = "block";
+//             });
+//         }
 
-    }).catch(function (erro) {
-        console.log(erro);
-    });
+//     }).catch(function (erro) {
+//         console.log(erro);
+//     });
 
-    return false;
-}
+//     return false;
+ }

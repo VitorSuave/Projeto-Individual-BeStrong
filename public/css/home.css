@@ -34,11 +34,20 @@ body{
     padding: 10px 50px;
 }
 
+.logo {
+    width: 50px; /* Ajuste o tamanho da logo conforme necessário */
+    height: 50px;
+    margin-right: 10px; /* Diminuindo o espaçamento entre logo e título */
+}
+
 .titulo {
     display: flex;
     align-items: center;
     color: rgb(250, 245, 245);
     font-size: 24px;
+    font-weight: bold;
+    margin-right: 50%; /* Remove margens padrão do h1 */
+    padding-top: 10px;
 }
 
 .nav {
@@ -59,10 +68,10 @@ body{
 }
 
 .nav a:hover {
-    color: #65b8a6; /* Cor ao passar o mouse */
+    color: #bba58b;
 }
 
-/* Efeito para esconder o conteúdo ao rolar */
+
 .content {
     transition: opacity 0.6s ease-out;
     opacity: 1;

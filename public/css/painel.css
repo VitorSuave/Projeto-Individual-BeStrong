@@ -253,8 +253,8 @@ canvas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-left: 45%;
   margin-top: 15%;
+  padding-left: 6%;
 }
 
 
@@ -281,10 +281,11 @@ canvas {
   object-fit: cover;
   object-position: center 40%;
   border-radius: 6px;
+  cursor: pointer;
 }
 
 .card .card-content {
-  margin-left: 15px;
+  margin-left: 25px;
 }
 
 .card .card-content h3 {
@@ -299,3 +300,7 @@ canvas {
   margin: 5px 0 0;
 }
 
+.titulo{
+  padding-left: 25%;
+  margin-top: 5%;
+}

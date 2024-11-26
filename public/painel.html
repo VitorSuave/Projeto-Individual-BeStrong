@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Be Strong | Painel </title> 
+    <title>Be Strong | Painel </title>
     <link rel="icon" href="assets/FlavIcon.png" style="height: 70px; width: 70px;">
 
 </head>
@@ -23,61 +23,48 @@
                 <h3>Bem-vindo(a), <span id="b_usuario">usuário</span>!</h3>
             </div>
 
-            <div class="btn-nav-white">
-                <a href="./cards.html">
+            <div class="btn btn-dark">
+                <a href="quiz.html">
                     <h3>Quiz</h3>
                 </a>
             </div>
 
-            <div class="btn-nav">
-                <a href="dashboard.html"><h3>Dashboards</h3></a>
+            <div class="btn btn-dark">
+                <a href="dashboard.html">
+                    <h3>Dashboards</h3>
+                </a>
             </div>
 
 
-            <div class="btn-logout" onclick="limparSessao()">
+            <div class="btn btn-dark" onclick="limparSessao()">
                 <h3>Sair</h3>
             </div>
 
         </div>
 
-        <div class="dash">
-            <div id="alerta"></div>
-
-            <div class="btns-dash" id="btnAquario">
-                <!-- O gráfico é chamado de acordo com o id (fk_aquario) do banco  -->
-            </div>
-            <div id="graficos"></div>
-
-            <div class="cards-container">
-                <!-- Card 1: Explicação do Quiz -->
-                <div class="card">
-                    <img src="https://via.placeholder.com/500x200" class="card-img-top" alt="Exemplo do Quiz">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Como funciona o Quiz</h5>
-                        <p class="card-text text-center">
-                            O Quiz é uma ferramenta interativa que permite testar seus conhecimentos sobre diversos temas. Clique no botão abaixo para experimentar.
-                        </p>
-                        <div class="d-flex justify-content-center">
-                            <a href="./cards.html" class="btn btn-primary">Acessar Quiz</a>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card 2: Explicação da Dashboard -->
-                <div class="card">
-                    <img src="https://via.placeholder.com/500x200" class="card-img-top" alt="Exemplo da Dashboard">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Como funciona a Dashboard</h5>
-                        <p class="card-text text-center">
-                            A Dashboard permite visualizar dados importantes e gráficos em tempo real. Clique no botão abaixo para explorar.
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
+        <div class="titulo">
+            <h3><strong>BE STRONG</strong></h3>
         </div>
-    
+
+        <div class="cards-container">
+
+            <!-- Card 1: Explicação do Quiz -->
+            <div class="card">
+                <img src="../public/assets/painel_img1.jpg" class="card-img-top" alt="Exemplo do Quiz">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Prove seu conhecimento!</h5>
+                    <p class="card-text text-center">
+                        Veja qual o seu conhecimento sobre o mundo da academia com base em um quiz interativo. Após feito 
+                        você poderá ver seu gráfico de progresso via dashboard.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 
     <script src="js/sessao.js"></script>
 </body>
+
 </html>

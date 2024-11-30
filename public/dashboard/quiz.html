@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/quiz.css">
+    <link rel="icon" href="../assets/FlavIcon.png" style="height: 70px; width: 70px;">
+    <title>Quiz | Be Strong</title>
+</head>
+<body>
+    <div class="app">
+        <h1>Quiz | BeStrong</h1>
+        <div class="quiz">
+            <h2 id="question">"Pergunta"</h2>
+            <div id="answer-buttons" class="answer-buttons">
+                <button id="btn1" class="btn">Opção 1</button>
+                <button id="btn2" class="btn">Opção 2</button>
+                <button id="btn3" class="btn">Opção 3</button>
+                <button id="btn4" class="btn">Opção 4</button>
+            </div>
+            <button id="next-btn" class="next-btn">Próxima</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    const questionElement = document.getElementById("question");
+    const buttons = [
+        document.getElementById("btn1"),
+        document.getElementById("btn2"),
+        document.getElementById("btn3"),
+        document.getElementById("btn4")
+    ];
+    const nextButton = document.getElementById("next-btn");
+
+    let currentQuestionIndex = 0; // Inicialize a variável aqui
+    const questions = [
+        {
+            question: "Qual é a capital do Brasil?",
+            answers: [
+                { text: "São Paulo", correct: false },
+                { text: "Rio de Janeiro", correct: false },
+                { text: "Brasília", correct: true },
+                { text: "Belo Horizonte", correct: false }
+            ]
+        },
+        {
+            question: "Quanto é 2 + 2?",
+            answers: [
+                { text: "3", correct: false },
+                { text: "4", correct: true },
+                { text: "5", correct: false },
+                { text: "6", correct: false }
+            ]
+        }
+        // Adicione mais perguntas aqui
+    ];
+
+    // Função para iniciar o quiz
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        nextButton.style.display = "none";
+        showQuestion();
+    }
+
+    // Função para mostrar a pergunta e as respostas
+    function showQuestion() {
+        resetState();
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.textContent = currentQuestion.question;
+
+        // Atualiza os textos dos botões com as respostas
+        buttons.forEach((button, index) => {
+            const answer = currentQuestion.answers[index];
+            button.textContent = answer.text;
+            button.dataset.correct = answer.correct; // Associa se é correto ou não
+            button.addEventListener("click", selectAnswer);
+        });
+    }
+
+    // Função para resetar o estado dos botões
+    function resetState() {
+        nextButton.style.display = "none";
+        buttons.forEach(button => {
+            clearStatusClass(button);
+            button.disabled = false; // Habilita os botões novamente
+        });
+    }
+
+    // Função que é chamada quando o usuário seleciona uma resposta
+    function selectAnswer(e) {
+        const selectedButton = e.target;
+        const correct = selectedButton.dataset.correct === "true";
+        setStatusClass(selectedButton, correct);
+
+        // Desabilita todos os botões após selecionar a resposta
+        buttons.forEach(button => {
+            setStatusClass(button, button.dataset.correct === "true");
+            button.disabled = true;
+        });
+
+        if (questions.length > currentQuestionIndex + 1) {
+            nextButton.style.display = "block";
+        } else {
+            nextButton.textContent = "Reiniciar";
+            nextButton.style.display = "block";
+        }
+    }
+
+    // Função para adicionar a classe 'correct' ou 'wrong' nos botões
+    function setStatusClass(element, correct) {
+        clearStatusClass(element);
+        if (correct) {
+            element.classList.add("correct");
+        } else {
+            element.classList.add("incorrect");
+        }
+    }
+
+    // Função para limpar as classes de status
+    function clearStatusClass(element) {
+        element.classList.remove("correct");
+        element.classList.remove("incorrect");
+    }
+
+    // Evento para o botão 'Próxima'
+    nextButton.addEventListener("click", () => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            startQuiz();
+        }
+    });
+
+    // Inicia o quiz assim que a página for carregada
+    startQuiz();
+});
+
+</script>
+

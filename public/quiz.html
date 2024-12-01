@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/quiz.css">
+    <script src=".js/sessao.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" href="./assets/FlavIcon.png" type="image/png" sizes="32x32">
+    <title>Quiz | Be Strong</title>
+</head>
+
+<body>
+    <div class="janela">
+        <div class="header-left">
+            <h1>PAINEL</h1>
+
+            <div class="hello">
+                <h3>Bem-vindo(a), <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+
+            <div class="btn btn-dark">
+                <a href="dash.html">
+                    <h3>Dashboards</h3>
+                </a>
+            </div>
+
+
+            <div class="btn btn-dark" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+
+        <div class="titulo">
+            <h3><strong>BE STRONG</strong></h3>
+            <h3>Seja o seu melhor!</h3>
+        </div>
+
+
+        <div class="app">
+            <h1>Quiz | BeStrong</h1>
+            <div class="quiz">
+                <h2 id="question">"Pergunta"</h2>
+                <div id="answer-buttons" class="answer-buttons">
+                    <button id="btn1" class="btn-ops">Opção 1</button>
+                    <button id="btn2" class="btn-ops">Opção 2</button>
+                    <button id="btn3" class="btn-ops">Opção 3</button>
+                    <button id="btn4" class="btn-ops">Opção 4</button>
+                </div>
+                <button id="next-btn" class="next-btn">Próxima</button>
+            </div>
+        </div>
+
+        <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const questionElement = document.getElementById("question");
+                const buttons = [
+                    document.getElementById("btn1"),
+                    document.getElementById("btn2"),
+                    document.getElementById("btn3"),
+                    document.getElementById("btn4")
+                ];
+                const nextButton = document.getElementById("next-btn");
+
+                let currentQuestionIndex = 0;
+                let correctAnswers = 0;
+
+                const questions = [
+                    {
+                        question: "Qual é o principal objetivo do treino de hipertrofia?",
+                        answers: [
+                            { text: "Aumentar a força máxima", correct: false },
+                            { text: "Aumentar a massa muscular", correct: true },
+                            { text: "Melhorar o condicionamento físico", correct: false },
+                            { text: "Reduzir a gordura corporal", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Qual desses exercícios é considerado um movimento composto?",
+                        answers: [
+                            { text: "Rosca direta", correct: false },
+                            { text: "Agachamento", correct: true },
+                            { text: "Elevação lateral", correct: false },
+                            { text: "Pullover", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Qual é a principal função do músculo peitoral maior?",
+                        answers: [
+                            { text: "Extensão do cotovelo", correct: false },
+                            { text: "Flexão do quadril", correct: false },
+                            { text: "Adução do braço", correct: true },
+                            { text: "Extensão do joelho", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Qual é a técnica correta para maximizar o treino de bíceps?",
+                        answers: [
+                            { text: "Usar cargas extremamente leves", correct: false },
+                            { text: "Movimentos controlados e completos", correct: true },
+                            { text: "Fazer séries rápidas e curtas", correct: false },
+                            { text: "Segurar a respiração", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Qual é o tempo ideal de descanso entre séries para hipertrofia?",
+                        answers: [
+                            { text: "15-30 segundos", correct: false },
+                            { text: "30-90 segundos", correct: true },
+                            { text: "3-5 minutos", correct: false },
+                            { text: "Mais de 5 minutos", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Qual é o principal objetivo do fisiculturismo?",
+                        answers: [
+                            { text: "Aumentar a força máxima", correct: false },
+                            { text: "Reduzir a gordura corporal", correct: false },
+                            { text: "Estética e simetria muscular", correct: true },
+                            { text: "Melhorar a flexibilidade", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Qual é o nome da categoria feminina no fisiculturismo focada em simetria e definição leve?",
+                        answers: [
+                            { text: "Wellness", correct: true },
+                            { text: "Bikini", correct: false },
+                            { text: "Fitness", correct: false },
+                            { text: "Figura", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Quem é considerado o maior fisiculturista da história?",
+                        answers: [
+                            { text: "Jay Cutler", correct: false },
+                            { text: "Phil Heath", correct: false },
+                            { text: "Arnold Schwarzenegger", correct: true },
+                            { text: "Ronnie Coleman", correct: false }
+                        ]
+                    },
+                    {
+                        question: "Qual é o nome da maior competição de fisiculturismo do mundo?",
+                        answers: [
+                            { text: "Arnold Classic", correct: false },
+                            { text: "Mr. Olympia", correct: true },
+                            { text: "The Iron Games", correct: false },
+                            { text: "IFBB Pro League", correct: false }
+                        ]
+                    },
+                    {
+                        question: "O que é 'cutting' no contexto do fisiculturismo?",
+                        answers: [
+                            { text: "Aumentar o volume muscular", correct: false },
+                            { text: "Reduzir a gordura corporal mantendo a massa muscular", correct: true },
+                            { text: "Melhorar a resistência cardiovascular", correct: false },
+                            { text: "Diminuir o consumo de carboidratos a zero", correct: false }
+                        ]
+                    }
+                ];
+
+                function startQuiz() {
+                    currentQuestionIndex = 0;
+                    correctAnswers = 0;
+                    nextButton.textContent = "Próxima";
+                    nextButton.style.display = "none";
+                    showQuestion();
+                }
+
+                function showQuestion() {
+                    resetState();
+                    const currentQuestion = questions[currentQuestionIndex];
+                    questionElement.textContent = currentQuestion.question;
+
+                    buttons.forEach((button, index) => {
+                        const answer = currentQuestion.answers[index];
+                        button.textContent = answer.text;
+                        button.dataset.correct = answer.correct;
+                        button.addEventListener("click", selectAnswer);
+                    });
+                }
+
+                function resetState() {
+                    nextButton.style.display = "none";
+                    buttons.forEach(button => {
+                        clearStatusClass(button);
+                        button.disabled = false;
+                    });
+                }
+
+                function selectAnswer(e) {
+                    const selectedButton = e.target;
+                    const correct = selectedButton.dataset.correct === "true";
+
+                    if (correct) {
+                        correctAnswers++;
+                    }
+
+                    setStatusClass(selectedButton, correct);
+
+                    buttons.forEach(button => {
+                        setStatusClass(button, button.dataset.correct === "true");
+                        button.disabled = true;
+                    });
+
+                    if (questions.length > currentQuestionIndex + 1) {
+                        nextButton.style.display = "block";
+                    } else {
+                        nextButton.textContent = "Ver Resultado";
+                        nextButton.style.display = "block";
+                    }
+                }
+
+                function setStatusClass(element, correct) {
+                    clearStatusClass(element);
+                    if (correct) {
+                        element.classList.add("correct");
+                    } else {
+                        element.classList.add("incorrect");
+                    }
+                }
+
+                function clearStatusClass(element) {
+                    element.classList.remove("correct");
+                    element.classList.remove("incorrect");
+                }
+
+                nextButton.addEventListener("click", () => {
+                    if (currentQuestionIndex < questions.length - 1) {
+                        currentQuestionIndex++;
+                        showQuestion();
+                    } else {
+                        showResults();
+                    }
+                });
+
+                function showResults() {
+                    resetState();
+                    questionElement.textContent = `Parabéns! Você acertou ${correctAnswers} de ${questions.length} perguntas!`;
+                    nextButton.textContent = "Ir para Dashboard";
+                    nextButton.style.display = "block";
+
+                    nextButton.addEventListener("click", () => {
+                        window.location.href = "dash.html";
+                    });
+
+                    buttons.forEach(button => {
+                        button.style.display = "none";
+                    });
+                }
+
+                startQuiz();
+            });
+        </script>
+</body>
+
+</html>

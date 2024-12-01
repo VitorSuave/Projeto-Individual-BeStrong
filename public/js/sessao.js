@@ -1,5 +1,4 @@
-// sessão
-function validarSessao(entrar) {
+function validarSessao() {
     var email = sessionStorage.EMAIL_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;
 
@@ -8,9 +7,12 @@ function validarSessao(entrar) {
     if (email != null && nome != null) {
         b_usuario.innerHTML = nome;
     } else {
-        window.location = "/login.html";
+        // Se o usuário não estiver logado, redireciona para o login e armazena a mensagem de erro
+        sessionStorage.setItem("mensagemErroLogin", "Você precisa estar logado para acessar esta página.");
+        window.location = "../login.html";
     }
 }
+
 
 function limparSessao() {
     sessionStorage.clear();

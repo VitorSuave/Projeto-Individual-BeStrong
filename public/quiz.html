@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/quiz.css">
-    <script src=".js/sessao.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -16,7 +15,7 @@
 <body>
     <div class="janela">
         <div class="header-left">
-            <h1>PAINEL</h1>
+            <h1>QUIZ</h1>
 
             <div class="hello">
                 <h3>Bem-vindo(a), <span id="b_usuario">usuário</span>!</h3>
@@ -57,7 +56,7 @@
         </div>
 
         <script>
-
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
             document.addEventListener("DOMContentLoaded", function () {
                 const questionElement = document.getElementById("question");
                 const buttons = [
@@ -69,7 +68,8 @@
                 const nextButton = document.getElementById("next-btn");
 
                 let currentQuestionIndex = 0;
-                let correctAnswers = 0;
+                let certas = 0; // Variável para acertos
+                let erradas = 0; // Variável para erros
 
                 const questions = [
                     {
@@ -91,82 +91,83 @@
                         ]
                     },
                     {
-                        question: "Qual é a principal função do músculo peitoral maior?",
+                        question: "O que caracteriza um treino aeróbico?",
                         answers: [
-                            { text: "Extensão do cotovelo", correct: false },
-                            { text: "Flexão do quadril", correct: false },
-                            { text: "Adução do braço", correct: true },
-                            { text: "Extensão do joelho", correct: false }
+                            { text: "Foco no aumento de massa muscular", correct: false },
+                            { text: "Atividade de longa duração e baixa intensidade", correct: true },
+                            { text: "Exercícios de alta intensidade e curta duração", correct: false },
+                            { text: "Movimentos rápidos com foco na força", correct: false }
                         ]
                     },
                     {
-                        question: "Qual é a técnica correta para maximizar o treino de bíceps?",
+                        question: "Qual o melhor exercício para fortalecer a região abdominal?",
                         answers: [
-                            { text: "Usar cargas extremamente leves", correct: false },
-                            { text: "Movimentos controlados e completos", correct: true },
-                            { text: "Fazer séries rápidas e curtas", correct: false },
-                            { text: "Segurar a respiração", correct: false }
+                            { text: "Flexão de braço", correct: false },
+                            { text: "Abdominal tradicional", correct: true },
+                            { text: "Puxada na barra", correct: false },
+                            { text: "Supino reto", correct: false }
                         ]
                     },
                     {
-                        question: "Qual é o tempo ideal de descanso entre séries para hipertrofia?",
+                        question: "Qual é a principal vantagem do treinamento intervalado (HIIT)?",
                         answers: [
-                            { text: "15-30 segundos", correct: false },
-                            { text: "30-90 segundos", correct: true },
-                            { text: "3-5 minutos", correct: false },
-                            { text: "Mais de 5 minutos", correct: false }
+                            { text: "Aumento da força máxima", correct: false },
+                            { text: "Queima intensa de calorias em um curto período de tempo", correct: true },
+                            { text: "Maior resistência muscular", correct: false },
+                            { text: "Melhora apenas a flexibilidade", correct: false }
                         ]
                     },
                     {
-                        question: "Qual é o principal objetivo do fisiculturismo?",
+                        question: "Qual tipo de alongamento é mais indicado após o treino?",
                         answers: [
-                            { text: "Aumentar a força máxima", correct: false },
-                            { text: "Reduzir a gordura corporal", correct: false },
-                            { text: "Estética e simetria muscular", correct: true },
-                            { text: "Melhorar a flexibilidade", correct: false }
+                            { text: "Alongamento dinâmico", correct: false },
+                            { text: "Alongamento estático", correct: true },
+                            { text: "Alongamento ativo", correct: false },
+                            { text: "Alongamento assistido", correct: false }
                         ]
                     },
                     {
-                        question: "Qual é o nome da categoria feminina no fisiculturismo focada em simetria e definição leve?",
+                        question: "O que é a periodização no treinamento?",
                         answers: [
-                            { text: "Wellness", correct: true },
-                            { text: "Bikini", correct: false },
-                            { text: "Fitness", correct: false },
-                            { text: "Figura", correct: false }
+                            { text: "Alteração de exercícios a cada 15 dias", correct: false },
+                            { text: "Planejamento de treinos para aumentar a performance ao longo do tempo", correct: true },
+                            { text: "Realização de treinos apenas com pesos altos", correct: false },
+                            { text: "Treinos apenas com atividades aeróbicas", correct: false }
                         ]
                     },
                     {
-                        question: "Quem é considerado o maior fisiculturista da história?",
+                        question: "Qual é o papel dos carboidratos na alimentação de um atleta?",
                         answers: [
-                            { text: "Jay Cutler", correct: false },
-                            { text: "Phil Heath", correct: false },
-                            { text: "Arnold Schwarzenegger", correct: true },
-                            { text: "Ronnie Coleman", correct: false }
+                            { text: "São usados para repor a gordura no corpo", correct: false },
+                            { text: "Servem como principal fonte de energia durante o exercício", correct: true },
+                            { text: "Ajudam no aumento da massa muscular", correct: false },
+                            { text: "Substituem a ingestão de proteínas", correct: false }
                         ]
                     },
                     {
-                        question: "Qual é o nome da maior competição de fisiculturismo do mundo?",
+                        question: "Quais são os benefícios da prática de yoga?",
                         answers: [
-                            { text: "Arnold Classic", correct: false },
-                            { text: "Mr. Olympia", correct: true },
-                            { text: "The Iron Games", correct: false },
-                            { text: "IFBB Pro League", correct: false }
+                            { text: "Aumento da força muscular", correct: false },
+                            { text: "Melhora da flexibilidade e redução do estresse", correct: true },
+                            { text: "Aumento da capacidade cardiovascular", correct: false },
+                            { text: "Redução do risco de lesões em treinos de alta intensidade", correct: false }
                         ]
                     },
                     {
-                        question: "O que é 'cutting' no contexto do fisiculturismo?",
+                        question: "O que é a adaptação neural no treino de força?",
                         answers: [
-                            { text: "Aumentar o volume muscular", correct: false },
-                            { text: "Reduzir a gordura corporal mantendo a massa muscular", correct: true },
-                            { text: "Melhorar a resistência cardiovascular", correct: false },
-                            { text: "Diminuir o consumo de carboidratos a zero", correct: false }
+                            { text: "Aumento da massa muscular em resposta ao treino", correct: false },
+                            { text: "Ajustes do sistema nervoso para recrutar mais fibras musculares", correct: true },
+                            { text: "Aumento da resistência cardiovascular", correct: false },
+                            { text: "Melhora da flexibilidade articular", correct: false }
                         ]
                     }
                 ];
 
                 function startQuiz() {
                     currentQuestionIndex = 0;
-                    correctAnswers = 0;
+                    certas = 0; // Resetando os acertos
+                    erradas = 0; // Resetando os erros
                     nextButton.textContent = "Próxima";
                     nextButton.style.display = "none";
                     showQuestion();
@@ -197,8 +198,11 @@
                     const selectedButton = e.target;
                     const correct = selectedButton.dataset.correct === "true";
 
+                    // Atualizando as variáveis de acertos e erros
                     if (correct) {
-                        correctAnswers++;
+                        certas++;
+                    } else {
+                        erradas++;
                     }
 
                     setStatusClass(selectedButton, correct);
@@ -241,9 +245,35 @@
 
                 function showResults() {
                     resetState();
-                    questionElement.textContent = `Parabéns! Você acertou ${correctAnswers} de ${questions.length} perguntas!`;
+                    questionElement.textContent = `Parabéns! Você acertou ${certas} de ${questions.length} perguntas!`;
                     nextButton.textContent = "Ir para Dashboard";
                     nextButton.style.display = "block";
+
+
+                    fetch("./pontuacaoUsuario/cadastrarPontos", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            idUsuario: sessionStorage.ID_USUARIO,  
+                            acerto: certas,
+                            erros: erradas,
+                        }),
+                    })
+                        .then((response) => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error("Erro ao cadastrar pontos.");
+                            }
+                        })
+                        .then((data) => {
+                            console.log("Pontos cadastrados com sucesso:", data);
+                        })
+                        .catch((error) => {
+                            console.error("Erro:", error);
+                        });
 
                     nextButton.addEventListener("click", () => {
                         window.location.href = "dash.html";
@@ -256,7 +286,7 @@
 
                 startQuiz();
             });
+
         </script>
 </body>
-
 </html>

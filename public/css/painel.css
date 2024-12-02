@@ -8,9 +8,10 @@ body {
 
 /* PAGINA DOS GRÁFICOS 2023 */
 
+/* Ajuste do painel para adicionar mais espaço entre o título e os cards */
 .janela {
   display: flex;
-  /* width: 100vw; */
+  flex-direction: column; /* Faz a div janela ficar em coluna para incluir o título acima */
 }
 
 .header-left a {
@@ -69,14 +70,14 @@ body {
   font-size: 200;
 }
 
+
 .cards-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 15%;
-  padding-left: 6%;
+  margin-top: 90px;
+  justify-content: flex-end;
+  gap: 10%;
+  padding-right: 10%;
 }
-
 
 .card {
   display: flex;
@@ -86,8 +87,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  width: auto;
-  max-width: 400px;
+  width: 30%; 
 }
 
 .card:hover {
@@ -95,17 +95,18 @@ body {
   transform: scale(1.05);
 }
 
+
 .card img {
-  width: 399px;
-  height: 200px;
-  object-fit: cover;
-  object-position: center 40%;
+  width: 100%; /* Faz a imagem preencher toda a largura do card */
+  height: 200px; /* Mantém a altura fixada, ajuste conforme necessário */
+  object-fit: cover; /* Faz com que a imagem preencha o card sem distorção */
+  object-position: center; /* Garante que a imagem esteja centralizada */
   border-radius: 6px;
   cursor: pointer;
 }
 
 .card .card-content {
-  margin-left: 25px;
+  margin-left: 10px;
 }
 
 .card .card-content h3 {
@@ -120,8 +121,15 @@ body {
   margin: 5px 0 0;
 }
 
-.titulo{
+/* Ajusta a margem entre o título e os cards */
+.titulo {
   padding-left: 25%;
-  margin-top: 5%;
+  margin-top: 40px; /* Maior espaço entre o título e o topo */
+  margin-bottom: 20px; /* Espaço pequeno entre o título e os cards */
 }
+
+
+
+
+
 

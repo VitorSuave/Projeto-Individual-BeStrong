@@ -8,7 +8,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src=".js/sessao.js"></script>
+        <script src="./js/sessao.js"></script>
         <title>Be Strong | Painel </title>
         <link rel="icon" href="assets/FlavIcon.png" style="height: 70px; width: 70px;">
 
@@ -56,8 +56,22 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Card 2: Explicação do Quiz -->
+                <div class="card">
+                    <img src="./assets/eugen-sandow.jpg" class="card-img-top" alt="Exemplo do Quiz" onclick="window.location.href='https://ge.globo.com/fisiculturismo/guia/2024/07/14/c-fisiculturismo-historia-do-esporte-como-surgiu-e-federacoes.ghtml'">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Como surgiu o fisiculturismo?</h5>
+                        <p class="card-text text-center">
+                            Caso queira se informar da história desse esporte antes de tentar fazer o quiz, basta clicar na imagem e você será levado
+                            ao site onde poderá ter mais conhecimento sobre esse mundo!
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
     </html>
-    
+    <script>
+        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    </script>

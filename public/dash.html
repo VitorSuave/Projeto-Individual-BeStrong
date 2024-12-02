@@ -1,123 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | BeStrong</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="./css/dashboard.css">
+    <script src="./js/sessao.js"></script>
     <link rel="icon" href="./assets/FlavIcon.png" type="image/png" sizes="32x32">
 </head>
+
 <body>
 
     <div class="janela">
         <div class="header-left">
-            <h1>PAINEL</h1>
-
+            <h1>DASHBOARD</h1>
             <div class="hello">
                 <h3>Bem-vindo(a), <span id="b_usuario">usuário</span>!</h3>
             </div>
-
-
             <div class="btn btn-dark">
                 <a href="painel.html">
                     <h3>Quiz</h3>
                 </a>
             </div>
-
-
             <div class="btn btn-dark" onclick="limparSessao()">
                 <h3>Sair</h3>
             </div>
-
         </div>
-    <div>
 
-        <!-- <h3>KPIs</h3>
-        <div>
-            <span>Média de Acertos: <span id="media-acertos">--</span></span>
-            <span>Maior Pontuação: <span id="maior-pontuacao">--</span></span>
-            <span>Total de Quizzes: <span id="total-quizzes">--</span></span>
+        <div class="dash-right">
+            <!-- KPIs -->
+            <div class="cards">
+                <div class="card">
+                    <h3>Média de Acertos</h3>
+                    <span id="kpiMediaAcertos"></span>
+                </div>
+                <div class="card">
+                    <h3>Maior Pontuação</h3>
+                    <span id="kpiMaiorPontuacao"></span>
+                </div>
+                <div class="card">
+                    <h3>Porcentagem de Acerto</h3>
+                    <span id="kpiPorcentagemAcertos"></span>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="charts">
+                <canvas id="graficoAcertos"></canvas>
+                <!-- <canvas id="graficoPontuacao"></canvas> -->
+            </div>
         </div>
-    </div> -->
+    </div>
 
-    <canvas id="graficoAcertos"></canvas>
-    <canvas id="graficoPontuacao"></canvas>
-
-    
 </body>
+
 </html>
 
 <script>
-    // Busca os dados da API
-    fetch('/dashboard/dados')
-        .then(response => response.json())
-        .then(data => {
-            // Cálculo dos KPIs
-            const mediaAcertos = data.acertosUsuario.reduce((sum, item) => sum + item.total_acertos, 0) / data.acertosUsuario.length;
-            const maiorPontuacao = Math.max(...data.maiorPontuacao.map(item => item.maior_pontuacao));
-            const totalQuizzes = data.acertosUsuario.length;
+    // Exibe o nome do usuário a partir do sessionStorage
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-            // Atualiza os KPIs na interface
-            document.getElementById('media-acertos').textContent = mediaAcertos.toFixed(2);
-            document.getElementById('maior-pontuacao').textContent = maiorPontuacao;
-            document.getElementById('total-quizzes').textContent = totalQuizzes;
+    function pontuacaoUsuario() {
+        // Pega o ID do usuário do sessionStorage
+        var idUsuario = sessionStorage.ID_USUARIO;
 
-            // Configura e cria o gráfico de linha (Acertos por usuário)
-            new Chart(document.getElementById('graficoAcertos'), {
-                type: 'line',
-                data: {
-                    labels: data.acertosUsuario.map(item => item.nome),
-                    datasets: [{
-                        label: 'Acertos',
-                        data: data.acertosUsuario.map(item => item.total_acertos),
-                        borderColor: 'blue',
-                        fill: false,
-                        tension: 0.3,
-                    }],
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' },
-                    },
-                    scales: {
-                        x: {
-                            title: { display: true, text: 'Usuários' },
-                        },
-                        y: {
-                            title: { display: true, text: 'Acertos' },
-                        },
-                    },
-                }
-            });
-
-            // Configura e cria o gráfico de barras (Maior pontuação por quiz)
-            new Chart(document.getElementById('graficoPontuacao'), {
-                type: 'bar',
-                data: {
-                    labels: data.maiorPontuacao.map(item => item.titulo),
-                    datasets: [{
-                        label: 'Maior Pontuação',
-                        data: data.maiorPontuacao.map(item => item.maior_pontuacao),
-                        backgroundColor: 'orange',
-                    }],
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' },
-                    },
-                    scales: {
-                        x: {
-                            title: { display: true, text: 'Quizzes' },
-                        },
-                        y: {
-                            title: { display: true, text: 'Pontuação' },
-                        },
-                    },
-                }
-            });
+        // Faz uma requisição GET para o endpoint da pontuação do usuário
+        fetch(`./pontuacaoUsuario/pontuacaoUsuario/${idUsuario}`, {
+            cache: "no-store"
         })
-        .catch(err => console.error('Erro ao carregar dados da dashboard:', err));
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(json => {
+                        let totalAcertos = 0;
+                        let totalErros = 0;
+                        let maiorPontuacao = 0;
+                        let totalTentativas = 0;
+
+                        // Cálculos das KPIs
+                        for (let i = 0; i < json.length; i++) {
+                            var registro = json[i];
+                            totalAcertos += registro.acertos;
+                            totalErros += registro.erros;
+                            totalTentativas += registro.acertos + registro.erros;
+
+                            // Calcula maior pontuação (maior número de acertos)
+                            if (registro.acertos > maiorPontuacao) {
+                                maiorPontuacao = registro.acertos;
+                            }
+                        }
+
+                        // Média de acertos
+                        let mediaAcertos = totalAcertos / json.length;
+
+                        // Porcentagem de acertos totais
+                        let porcentagemAcertos = (totalAcertos / totalTentativas) * 100;
+
+                        // Exibindo os resultados das KPIs
+                        document.getElementById("kpiMediaAcertos").innerHTML = `${mediaAcertos.toFixed(2)}`;
+                        document.getElementById("kpiMaiorPontuacao").innerHTML = `${maiorPontuacao}`;
+                        document.getElementById("kpiPorcentagemAcertos").innerHTML = `${porcentagemAcertos.toFixed(2)}%`;
+
+                        // Preparar dados para os gráficos
+                        let labels = [];
+                        let dados = {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Alternativas Certas',
+                                    data: [],
+                                    fill: false,
+                                    backgroundColor: 'rgb(2, 171, 7)',
+                                    tension: 0.1
+                                },
+                                {
+                                    label: 'Alternativas Erradas',
+                                    data: [],
+                                    fill: false,
+                                    backgroundColor: 'rgb(140, 10, 7)',
+                                    tension: 0.1
+                                }
+                            ]
+                        };
+
+
+                        // Para cada usuário, adicionar dados no gráfico de pontuação
+                        for (let i = 0; i < json.length; i++) {
+                            var registro = json[i];
+
+
+                            const dataFormatada = new Date(registro.datahora).toLocaleString('pt-BR', { 
+                                day: '2-digit', 
+                                month: '2-digit', 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                            });
+
+                            labels.push(dataFormatada);
+                            dados.datasets[0].data.push(registro.acertos);
+                            dados.datasets[1].data.push(registro.erros);
+
+                        }
+
+                        // Configuração e criação dos gráficos
+                        const config = {
+                            type: 'bar',
+                            data: dados
+                        };
+
+
+                        // Criando o gráfico de acertos
+                        let myChart = new Chart(
+                            document.getElementById("graficoAcertos"),
+                            config
+                        );
+
+                
+                    });
+                } else {
+                    console.log("Resposta não OK: ", resposta.status);
+                }
+            })
+            .catch(function (erro) {
+                console.log("Erro na requisição: ", erro);
+            });
+    }
+
+    // Executar a função para carregar os dados ao carregar a página
+    pontuacaoUsuario();
 </script>
